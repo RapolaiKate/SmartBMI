@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- First Activity Welcome colors -->
+    <!-- Root background color -->
+    <color name="rootBackground">#2169F3</color>
+    <!-- Background color for activity -->
+    <color name="linearBackground">#2169F3</color>
+    <!-- Text color -->
+    <color name="textPrimary">#FFFFFF</color>
+    <!-- Text color -->
+    <color name="subtitle">#BBDEFB</color>
+    <!-- Button Background color -->
+    <color name="buttonBackground">#002199</color>
+    <!-- Button text color -->
+    <color name="buttonText">#FFFFFF</color>
+    <!-- TextView color -->
+    <color name="black">#000000</color>
+    <!-- Button color -->
+    <color name="buttonColor">#03A9F4</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
+
+</resources>

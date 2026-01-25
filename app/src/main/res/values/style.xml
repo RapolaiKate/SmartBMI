@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Button style for SmartBMI Activity Welcome -->
+    <style name="SmartBMIButton" parent="Widget.Material3.Button">
+        <item name="cornerRadius">16dp</item>
+        <item name="android:backgroundTint">@color/buttonBackground</item>
+        <item name="android:textColor">@color/buttonText</item>
+        <item name="android:minHeight">65dp</item>
+        <item name="android:paddingHorizontal">18dp</item>
+        <item name="android:textAllCaps">false</item>
+
+    </style>
+
+        <!-- Heading text style -->
+        <style name="SmartBMIHeading">
+            <item name="android:textSize">28sp</item>
+            <item name="android:textStyle">bold</item>
+            <item name="android:textColor">@color/textPrimary</item>
+        </style>
+    <style name="SmartBMISubtitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/subtitle</item>
+    </style>
+
+    <!-- Header Textview Style Activity BMI-->
+    <style name="HeaderText">
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Input field -->
+    <style name="InputEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- Buttons -->
+<style name="PrimaryButton" parent="Widget.MaterialComponents.Button">
+    <item name="android:backgroundTint">@color/buttonColor</item>
+    <item name="android:textColor">@color/textPrimary</item>
+    <item name="cornerRadius">16dp</item>
+
+</style>
+
+    <!-- Splash Screen -->
+    <style name="Theme.SmartBMISplash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item
+            name="android:statusBarColor">@color/rootBackground</item>
+        <item
+            name="android:navigationBarColor">@color/rootBackground</item>
+        <item
+            name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
+</resources>

@@ -1,10 +1,12 @@
 # 🏃‍♀️ 💪 SmartBMI - Your Personal BMI Tracker
 
+
 SmartBMI is an Android application that helps users calculate their Body Mass Index(BMI), understand their health status, and track BMI history over time. The app focuses on clean UI, accessibility, and proper data storage using modern Android development practices.🌟
 
 ---
 
 ## ✨ Features
+
 - 🖼️ **Splash Screen**
     - With logo & full app name
 - 👋 **Welcome Screen**
@@ -43,13 +45,19 @@ SmartBMI is an Android application that helps users calculate their Body Mass In
 - **Logout**
     - Secure logout using Firebase Authentication
 
-
 ---
 
 ## 📷 Screenshots
+#### Splash Screen
 ![Splash Screen](app/screenshots/splash_screen.jpg)
+
+#### Welcome Screen
 ![Welcome Screen](app/screenshots/welcome_screen.jpg)
+
+#### BMI Calculation Screen
 ![BMI Calculation](app/screenshots/bmi_calculation.jpg)
+
+#### BMI History Screen
 ![BMI History](app/screenshots/bmi_history.jpg)
 
 ---
@@ -86,6 +94,7 @@ SmartBMI is an Android application that helps users calculate their Body Mass In
 . 🎨 **UI Components**: Activities, CardView, LinearLayout, ImamageButton
 . 🗣️ **Accessibility**: Android Text-To-Speech
 
+---
 
 ## 📜 License
 
@@ -96,5 +105,7 @@ Feel free to use and modify it for your own purposes.
 ---
 
 ## 👩‍💻 Developer
+
 **Rapolai Kate**:
 Junior Android Developer
+

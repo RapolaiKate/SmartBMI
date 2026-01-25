@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">SmartBMI</string>
+    <string name="welcome_message">Welcome to SmartBMI</string>
+    <string name="subtitle_message">Your personal BMI tracker</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="welcome_header">Calculate Your BMI</string>
+    <string name="weight">Weight (kg)</string>
+    <string name="height">Height (cm)</string>
+    <string name="weight_message">Enter your weight</string>
+    <string name="height_message">Enter your height</string>
+    <string name="calculate">Calculate</string>
+    <string name="logout">Logout</string>
+    <string name="result">Your BMI appear here</string>
+    <string name="category">Category: </string>
+    <string name="bmi">BMI:</string>
+    <string name="back">Back</string>
+    <string name="app_logo">App Logo</string>
+    <string name="body_mass_index">Body Mass Index</string>
+    <string name="bmi_history">BMI History</string>
+    <string name="no_bmi_records_yet">No BMI records yet</string>
+    <string name="dd_mm_yyyy">DD/MM/YYYY</string>
+    <string name="history">History</string>
+    <string name="health_message_will_appear_here">Health message</string>
+    <string name="normal">Normal</string>
+</resources>
