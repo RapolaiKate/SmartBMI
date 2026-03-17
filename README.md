@@ -66,7 +66,7 @@ SmartBMI is an Android application that helps users calculate their Body Mass In
 
 1. **Clone** this repository: '''bash
    git clone
-   https:/GitHub.com/RapolaiKate/SmartBMI.git
+   https:/github.com/RapolaiKate/SmartBMI.git
 2. open the project in Android Studio
 3. Sync Gradle and build the project
 4. Run the app on an emulator or physical device
@@ -95,6 +95,10 @@ SmartBMI is an Android application that helps users calculate their Body Mass In
 . 🗣️ **Accessibility**: Android Text-To-Speech
 
 ---
+
+Why this project?
+
+This project demonstrates my ability to build a complete Android application using modern development practices. It includes user authentication, local and cloud data storage, clean architecture (MVVM), and accessibility features, showing my readiness for real-world Android development.
 
 ## 📜 License
 
