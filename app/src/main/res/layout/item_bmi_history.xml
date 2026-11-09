@@ -4,34 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/cardBackground">
 
     <!-- BMI Value -->
-<TextView
-    android:id="@+id/tvBmiValue"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/bmi"
-    android:textSize="18sp"
-    android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/tvBmiValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bmi"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/accentCyan"/>
 
     <!-- Category -->
-<TextView
-    android:id="@+id/tvCategory"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/normal"
-    android:textSize="14sp"
-    android:textStyle="bold"
-    android:layout_marginTop="4dp"/>
+    <TextView
+        android:id="@+id/tvCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/normal"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/textPrimary"
+        android:layout_marginTop="4dp"/>
 
     <!-- Date -->
-<TextView
-    android:id="@+id/tvDate"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/dd_mm_yyyy"
-    android:textColor="#666"
-    android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dd_mm_yyyy"
+        android:textColor="@color/subtitle"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"/>
 
 </LinearLayout>

@@ -6,7 +6,7 @@
          <!-- Background Color -->
     <item>
         <bitmap
-            android:src="@drawable/bmi_logo"
+            android:src="@drawable/smart_bmi_logo"
             android:gravity="center"/>
     </item>
 

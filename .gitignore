@@ -1,16 +1,95 @@
+# ==============================
+# Android Studio
+# ==============================
+
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+.idea/
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+captures/
+.externalNativeBuild/
+.cxx/
+*.hprof
+
+# ==============================
+# Gradle
+# ==============================
+
+.gradle/
+build/
+**/build/
+
+# ==============================
+# Local Android Configuration
+# ==============================
+
 local.properties
-/app/google-services.json
+
+# ==============================
+# Firebase Configuration
+# ==============================
+
+**/google-services.json
+
+# Firebase Admin SDK credentials
+*firebase-adminsdk*.json
+service-account*.json
+*serviceAccountKey*.json
+
+# ==============================
+# Google Authentication
+# ==============================
+
+client_secret*.json
+google-client-secret*.json
+
+# ==============================
+# Facebook Authentication
+# ==============================
+
+facebook-config.json
+facebook_secrets.xml
+
+# ==============================
+# Private Configuration
+# ==============================
+
+.env
+.env.*
+secrets.properties
+*.secrets
+*.secret
+
+# ==============================
+# Android Signing Credentials
+# ==============================
+
+*.jks
+*.keystore
+key.properties
+keystore.properties
+
+# ==============================
+# Private Keys and Certificates
+# ==============================
+
+*.pem
+*.p12
+*.key
+*.pfx
+
+# ==============================
+# Logs and Temporary Files
+# ==============================
+
+*.log
+*.tmp
+*.bak
+*.swp
+*.orig
+
+# ==============================
+# Operating System Files
+# ==============================
+
+Thumbs.db
+.DS_Store

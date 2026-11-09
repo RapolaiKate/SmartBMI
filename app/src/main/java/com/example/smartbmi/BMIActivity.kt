@@ -5,220 +5,249 @@ import android.content.Intent
 import android.speech.tts.TextToSpeech
 import android.view.View
 import android.widget.Toast
-import java.util.Locale
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.smartbmi.databinding.ActivityBmiBinding
-import kotlinx.coroutines.launch
-import android.graphics.Color
-import com.google.firebase.auth.FirebaseAuth
 import com.example.smartbmi.data.BMIDatabase
 import com.example.smartbmi.data.BMIEntity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.delay
-
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Locale
 
 class BMIActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
-    // ===== VIEW BINDING =====
+    // View Binding
     private lateinit var binding: ActivityBmiBinding
-    // ===== ROOM DATABASE =====
+
+    // Room Database
     private lateinit var bmiDatabase: BMIDatabase
-    // ===== FIREBASE INSTANCE =====
+
+    // Firebase
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var firestoreDb: FirebaseFirestore
-    // ===== TEXT-TO-SPEECH =====
+
+    // Text-to-Speech
     private var tts: TextToSpeech? = null
+    private var isTtsReady = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // ===== VIEW BINDING SETUP =====
         binding = ActivityBmiBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ===== INITIALIZE ROOM DATABASE & FIREBASE =====
+        // Initialize Room and Firebase
         bmiDatabase = BMIDatabase.getDatabase(this)
         firebaseAuth = FirebaseAuth.getInstance()
         firestoreDb = FirebaseFirestore.getInstance()
 
-        // ===== INITIALIZE TEXT-TO-SPEECH =====
+        // Initialize Text-to-Speech
         tts = TextToSpeech(this, this)
 
-        // =====  HIDE PROGRESSBAR INITIALLY ======
+        // Hide ProgressBar initially
         binding.progressBar.visibility = View.GONE
 
-        // ===== CALCULATE BUTTON =====
+        // Calculate BMI button
         binding.btnCalculate.setOnClickListener {
             calculateAndSaveBMI()
         }
-        // ===== HISTORY BUTTON =====
+
+        // BMI History button
         binding.btnHistory.setOnClickListener {
             startActivity(Intent(this, BMIHistoryActivity::class.java))
         }
     }
+
+    // Calculate and save BMI
     private fun calculateAndSaveBMI() {
 
-        // ===== GET USER INPUT =====
+        // Get user input
         val weightText = binding.etWeight.text.toString().trim()
         val heightText = binding.etHeight.text.toString().trim()
 
-        // ===== VALIDATION ======
-        if (weightText.isEmpty() || heightText.isEmpty()) {
-            Toast.makeText(this, "Please enter weight and height", Toast.LENGTH_SHORT).show()
+        // Clear previous validation errors
+        binding.tilWeight.error = null
+        binding.tilHeight.error = null
+
+        // Validate Weight
+        if (weightText.isEmpty()) {
+            binding.tilWeight.error = "Please enter your weight"
             return
         }
+
         val weight = weightText.toDoubleOrNull()
-        val height = heightText.toDoubleOrNull()
 
-        if (weight == null || height == null) {
-            Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show()
+        if (weight == null || !weight.isFinite() || weight !in 1.0..500.0) {
+            binding.tilWeight.error = "Enter a valid weight in kg"
             return
         }
-        // ===== CALCULATE BMI =====
-        val bmi = weight / (height * height)
-        val bmiRounded = String.format(Locale.US, "%.1f", bmi).toDouble()
 
-        // ===== DETERMINE CATEGORY AND HEALTH =====
+        // Validate Height
+        if (heightText.isEmpty()) {
+            binding.tilHeight.error = "Please enter your height"
+            return
+        }
+
+        val heightCm = heightText.toDoubleOrNull()
+
+        if (heightCm == null || !heightCm.isFinite() || heightCm !in 50.0..300.0) {
+            binding.tilHeight.error = "Enter a valid height in cm"
+            return
+        }
+
+        // Convert centimetres to metres
+        val heightMetres = heightCm / 100.0
+
+        // Calculate BMI
+        val bmi = weight / (heightMetres * heightMetres)
+
+        if (!bmi.isFinite()) {
+            Toast.makeText(
+                this,
+                "Unable to calculate BMI. Please check your measurements.",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        val bmiRounded = String.format(
+            Locale.US,
+            "%.1f",
+            bmi
+        ).toDouble()
+
+        // Determine BMI category
         val category = when {
-            bmi < 18.5 -> "Underweight"
-            bmi < 25 -> "Normal"
-            bmi < 30 -> "Overweight"
+            bmiRounded < 18.5 -> "Underweight"
+            bmiRounded < 25.0 -> "Normal"
+            bmiRounded < 30.0 -> "Overweight"
             else -> "Obese"
         }
-        // ===== UPDATE UI =====
-        binding.tvResult.text = "BMI: $bmiRounded"
+
+        // Update BMI result
+        binding.tvBmiResult.text = "Your BMI: $bmiRounded"
         binding.tvCategory.text = category
 
-        // ===== ANIMATE RULER INDICATOR =====
-        animateIndicator(bmiRounded, category)
+        // Update semicircular BMI gauge
+        binding.bmiGauge.setBmi(bmiRounded.toFloat())
 
-        // ===== SPEAK RESULT =====
+        // Speak BMI result
         speakResult(bmiRounded, category)
 
-        // ===== SHOW PROGRESSBAR =====
+        // Show saving progress
         binding.progressBar.visibility = View.VISIBLE
         binding.btnCalculate.isEnabled = false
+
         val startTime = System.currentTimeMillis()
 
-        // ===== SAVE TO ROOM =====
-            val bmiEntity = BMIEntity(
-                    bmi = bmiRounded,
-                    category = category,
-                    date = System.currentTimeMillis()
-                )
-        lifecycleScope.launch(Dispatchers.IO) {
-            bmiDatabase.bmiDao().insertBMI(bmiEntity)
+        // Create BMI record
+        val bmiEntity = BMIEntity(
+            bmi = bmiRounded,
+            category = category,
+            date = System.currentTimeMillis()
+        )
 
-            // ===== SAVE TO FIREBASE =====
-            val userId = firebaseAuth.currentUser?.uid
-            if (userId != null) {
-                firestoreDb.collection("users")
-                    .document(userId)
-                    .collection("bmi_history")
-                    .add(
-                        mapOf(
-                            "bmi" to bmiRounded,
-                            "category" to category,
-                            "date" to System.currentTimeMillis()
-                        )
+        // Save BMI record
+        lifecycleScope.launch {
+
+            try {
+                // Save to local Room database
+                withContext(Dispatchers.IO) {
+                    bmiDatabase.bmiDao().insertBMI(bmiEntity)
+                }
+
+                // Save to Firebase if user is signed in
+                val userId = firebaseAuth.currentUser?.uid
+
+                if (userId != null) {
+
+                    val firebaseRecord = mapOf(
+                        "bmi" to bmiRounded,
+                        "category" to category,
+                        "date" to bmiEntity.date
                     )
-            }
-            // ===== ENSURE PROGRESSBAR SHOWS AT LEAST 2 SECONDS =====
-            val elapsed = System.currentTimeMillis() - startTime
-            val remaining = 2000 - elapsed
-            if (remaining > 0)
-                delay(remaining)
 
-            withContext(Dispatchers.Main) {
+                    firestoreDb.collection("users")
+                        .document(userId)
+                        .collection("bmi_history")
+                        .add(firebaseRecord)
+                        .addOnFailureListener {
+                            Toast.makeText(
+                                this@BMIActivity,
+                                "Saved on this device, but cloud sync failed.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                }
+
+                Toast.makeText(
+                    this@BMIActivity,
+                    "BMI saved successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } catch (e: Exception) {
+
+                Toast.makeText(
+                    this@BMIActivity,
+                    "Unable to save BMI. Please try again.",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            } finally {
+
+                // Keep ProgressBar visible for at least 2 seconds
+                val elapsed = System.currentTimeMillis() - startTime
+                val remaining = 2000L - elapsed
+
+                if (remaining > 0) {
+                    delay(remaining)
+                }
 
                 binding.progressBar.visibility = View.GONE
                 binding.btnCalculate.isEnabled = true
-                Toast.makeText(this@BMIActivity, "BMI saved successfully", 
-                    Toast.LENGTH_SHORT).show()
             }
         }
     }
-    private fun animateIndicator(bmi: Double, category: String) {
 
-        // ===== CONVERTING BMI TO FLOAT ONCE =====
-        val bmiFloat = bmi.toFloat()
-
-        val maxBMI = 40f
-        val rulerWidth = binding.rulerImage.width.toFloat()
-        val targetX = ((bmiFloat / maxBMI) * rulerWidth).coerceIn(0f, rulerWidth)
-
-        // ===== SET INDICATOR COLOR BASED ON CATEGORY =====
-        when (category) {
-            "Underweight" -> binding.indicatorView.setColorFilter(Color.BLUE)
-            "Normal" -> binding.indicatorView.setColorFilter(Color.GREEN)
-            "Overweight" -> binding.indicatorView.setColorFilter(Color.YELLOW)
-            else -> binding.indicatorView.setColorFilter(Color.RED)
-        }
-        binding.indicatorView.animate()
-            .translationX(targetX)
-            .setDuration(1000)
-            .start()
-    }
-    // ===== SPEAK BMI & CATEGORY USING TEXT-TO-SPEECH =====
+    // Text-to-Speech
     private fun speakResult(bmi: Double, category: String) {
-        val message = "Your BMI is $bmi. You are $category."
-        tts?.speak(message, TextToSpeech.QUEUE_FLUSH,null, null)
+
+        if (!isTtsReady) return
+
+        val message = "Your BMI is $bmi. Your category is $category."
+
+        tts?.speak(
+            message,
+            TextToSpeech.QUEUE_FLUSH,
+            null,
+            "BMI_RESULT"
+        )
     }
+
+    // Text-to-Speech initialization
     override fun onInit(status: Int) {
+
         if (status == TextToSpeech.SUCCESS) {
-            tts?.language = Locale.US
+
+            val result = tts?.setLanguage(Locale.US)
+
+            isTtsReady = result != TextToSpeech.LANG_MISSING_DATA &&
+                    result != TextToSpeech.LANG_NOT_SUPPORTED
         }
     }
+
+    // Clean up Text-to-Speech
     override fun onDestroy() {
+
         tts?.stop()
         tts?.shutdown()
+        tts = null
+
         super.onDestroy()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

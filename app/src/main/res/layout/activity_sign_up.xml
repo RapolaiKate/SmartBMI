@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rootBackground"
+    android:fillViewport="true"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <!-- Back Arrow -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/btnBackToWelcome"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="4dp"
+            app:navigationIcon="@drawable/baseline_arrow_back_24"
+            app:titleTextColor="@color/textPrimary" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvSignUpTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lets_get_started"
+            android:textColor="@color/accentCyan"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="18dp" />
+
+        <!-- Facebook Sign In -->
+        <FrameLayout
+            android:id="@+id/btnFacebookSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/facebook_button_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/facebook_circle"
+                android:text="@string/f"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="21sp"
+                android:gravity="center"
+                android:includeFontPadding="false" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/sign_in_with_facebook"
+                android:textColor="#172B4D"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <!-- Google Sign In -->
+        <FrameLayout
+            android:id="@+id/btnGoogleSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/facebook_button_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="18dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/google_logo"
+                android:contentDescription="@string/google_logo"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/sign_in_with_google"
+                android:textColor="#172B4D"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <!-- Registration Divider -->
+        <TextView
+            android:id="@+id/tvEmailRegistration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/or_use_your_email_for_registration"
+            android:textColor="@color/subtitle"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Email Label -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/email_address"
+            android:textColor="@color/accentCyan"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginBottom="6dp" />
+
+        <!-- Email Address -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilSignUpEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundMode="filled"
+            app:boxBackgroundColor="@color/rootBackground"
+            app:boxStrokeColor="@color/accentCyan"
+            app:hintTextColor="@color/accentCyan"
+            app:startIconDrawable="@drawable/ic_email_small"
+            app:startIconTint="@color/accentCyan"
+            app:hintEnabled="true">
+
+            <!-- Email Address -->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignUpEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="@string/email_address"
+                android:textColor="@color/textPrimary"
+                android:textColorHint="@color/subtitle"
+                android:inputType="textEmailAddress"
+                android:autofillHints="emailAddress"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Password Label -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/password_hint"
+            android:textColor="@color/accentCyan"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginBottom="6dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilSignUpPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:boxBackgroundMode="filled"
+            app:boxBackgroundColor="@color/rootBackground"
+            app:boxStrokeColor="@color/accentCyan"
+            app:hintTextColor="@color/accentCyan"
+            app:startIconDrawable="@drawable/ic_lock_small"
+            app:startIconTint="@color/accentCyan"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_eye_off"
+            app:endIconTint="@color/accentCyan">
+
+            <!-- Sign Up Password -->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignUpPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="@string/password_hint"
+                android:textColor="@color/textPrimary"
+                android:textColorHint="@color/subtitle"
+                android:inputType="textPassword"
+                android:autofillHints="newPassword"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Confirm Password Label -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reconfirm_password"
+            android:textColor="@color/accentCyan"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginBottom="6dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:boxBackgroundMode="filled"
+            app:boxBackgroundColor="@color/rootBackground"
+            app:boxStrokeColor="@color/accentCyan"
+            app:hintTextColor="@color/accentCyan"
+            app:startIconDrawable="@drawable/ic_lock_small"
+            app:startIconTint="@color/accentCyan"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_eye_off"
+            app:endIconTint="@color/accentCyan">
+
+            <!-- Confirm Password -->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="@string/password_hint"
+                android:textColor="@color/textPrimary"
+                android:textColorHint="@color/subtitle"
+                android:inputType="textPassword"
+                android:autofillHints="newPassword"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Terms Agreement -->
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbTermsAgreement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/I_accept_the_terms_of_agreement"
+            android:textColor="@color/textPrimary"
+            android:button="@drawable/smart_bmi_checkbox"
+            android:buttonTint="@null"
+            app:buttonTint="@null"
+            android:padding="4dp"
+            android:minHeight="48dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:textSize="14sp" />
+
+        <!-- Sign Up Button -->
+        <Button
+            android:id="@+id/btnSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/sign_up"
+            android:textColor="@color/buttonText"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/buttonBackground" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -46,10 +46,15 @@ dependencies {
     implementation("com.github.philJay:MPAndroidChart:v3.1.0")
     implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
     implementation("com.google.firebase:firebase-auth")
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics")
     implementation("androidx.room:room-runtime:2.8.4")
     implementation("androidx.room:room-ktx:2.8.4")
+    implementation("com.facebook.android:facebook-android-sdk:latest.release")
+    implementation(libs.androidx.activity.ktx)
     ksp("androidx.room:room-compiler:2.8.4")
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.core.ktx)
@@ -74,4 +79,10 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
 }
